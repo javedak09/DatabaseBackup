@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="15dp"
     tools:context="com.javedak09.databasebackup.MainActivity">
 
     <Button
         android:id="@+id/btnInsert"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="InsertRecord"
         android:text="Add Record" />
 
     <Button
         android:id="@+id/btnBackup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignParentBottom="@+id/btnInsert"
         android:onClick="BackupDatabase"
-        android:text="Backup"
-        app:layout_constraintBottom_toBottomOf="@+id/btnInsert" />
+        android:text="Backup" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btnDeleteFolders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deleteFoldersOlder"
+        android:text="Delete Folders" />
+
+</LinearLayout>

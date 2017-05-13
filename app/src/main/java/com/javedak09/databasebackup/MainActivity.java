@@ -15,7 +15,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class MainActivity extends Activity {
 
@@ -90,6 +95,95 @@ public class MainActivity extends Activity {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
+    public void deleteFoldersOlder(View view) {
+        deleteFolders("mydatabase.db");
+    }
+
+    private void deleteFolders(String db_name) {
+        int numOfDays = -3;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date dt = new Date();
+
+
+        //String path = "/DBBackup-" + sdf.format(dt) + "/mydatabase.db";
+        String path = Environment.getExternalStorageDirectory() + "/DBBackup-" + sdf.format(dt) + "/" + db_name;
+
+
+        File file = new File(path);
+
+        Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+
+        //FileHandler fh;
+        Calendar ThreeDaysAgo = Calendar.getInstance();
+        Calendar currentDate = Calendar.getInstance();
+
+
+        //Logger logger = Logger.getLogger("MyLog");
+        ThreeDaysAgo.add(Calendar.DAY_OF_MONTH, numOfDays);
+        File[] files = file.listFiles();
+
+        int i = 0;
+
+        boolean IsDelete = false;
+
+        try {
+
+            Toast.makeText(this, file.getName(), Toast.LENGTH_LONG).show();
+
+            file.delete();
+
+            file.getParentFile().delete();
+
+
+            /*if (file.isDirectory() && file.exists()) {
+
+                String[] children = file.list();
+                for (i = 0; i < children.length; i++) {
+                    boolean success = file.delete();
+                    Toast.makeText(this, String.valueOf(success), Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+
+                file.delete();
+                Toast.makeText(this, file.getName() + " not a directory", Toast.LENGTH_LONG).show();
+            }*/
+
+
+
+
+            /*for (File f : files) {
+
+                Toast.makeText(this, files[i].toString(), Toast.LENGTH_LONG).show();
+
+                i++;
+
+                if (f.isDirectory() && f.exists()) {
+
+                    Date lastModDate = new Date(f.lastModified());
+
+                    if (lastModDate.before(ThreeDaysAgo.getTime())) {
+
+                        Toast.makeText(this, "4", Toast.LENGTH_LONG).show();
+
+                        //f.delete();
+                    }
+
+
+                } else {
+                    Toast.makeText(this, "3", Toast.LENGTH_LONG).show();
+                }
+
+            }*/
+
+
+        } catch (Exception e) {
+            Toast.makeText(this, "error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     private void exportDB(String db_name) {
 
