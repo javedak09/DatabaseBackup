@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,40 +102,57 @@ public class MainActivity extends Activity {
     }
 
     private void deleteFolders(String db_name) {
-        int numOfDays = -3;
+
+        //int numOfDays = -3;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Date dt = new Date();
 
-
         //String path = "/DBBackup-" + sdf.format(dt) + "/mydatabase.db";
-        String path = Environment.getExternalStorageDirectory() + "/DBBackup-" + sdf.format(dt) + "/" + db_name;
+        //String path = Environment.getExternalStorageDirectory() + "/DBBackup-" + sdf.format(dt) + "/" + db_name;
 
+        //File file = new File(path);
 
-        File file = new File(path);
-
-        Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, path, Toast.LENGTH_LONG).show();
 
         //FileHandler fh;
-        Calendar ThreeDaysAgo = Calendar.getInstance();
-        Calendar currentDate = Calendar.getInstance();
+        //Calendar ThreeDaysAgo = Calendar.getInstance();
+        //Calendar currentDate = Calendar.getInstance();
 
 
         //Logger logger = Logger.getLogger("MyLog");
-        ThreeDaysAgo.add(Calendar.DAY_OF_MONTH, numOfDays);
-        File[] files = file.listFiles();
+        //ThreeDaysAgo.add(Calendar.DAY_OF_MONTH, numOfDays);
 
-        int i = 0;
+        //File[] files = file.listFiles();
 
-        boolean IsDelete = false;
 
         try {
 
-            Toast.makeText(this, file.getName(), Toast.LENGTH_LONG).show();
+            //Date lastModDate = new Date(file.lastModified());
 
-            file.delete();
+            //Toast.makeText(this, String.valueOf(lastModDate.before(ThreeDaysAgo.getTime())), Toast.LENGTH_LONG).show();
 
-            file.getParentFile().delete();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            for (int days = 3; days >= 0; days--) {
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, days);
+
+                String path = Environment.getExternalStorageDirectory() + "/DBBackup-" + dateFormat.format(cal.getTime()) + "/" + db_name;
+                File file = new File(path);
+                Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+
+                File[] files = file.listFiles();
+
+
+                Toast.makeText(this, "Deleting file ... " + file.getName(), Toast.LENGTH_LONG).show();
+                file.delete();
+                file.getParentFile().delete();
+
+            }
+
+            //Toast.makeText(this, dateFormat.format(cal.getTime()), Toast.LENGTH_LONG).show();
 
 
             /*if (file.isDirectory() && file.exists()) {
@@ -150,8 +168,6 @@ public class MainActivity extends Activity {
                 file.delete();
                 Toast.makeText(this, file.getName() + " not a directory", Toast.LENGTH_LONG).show();
             }*/
-
-
 
 
             /*for (File f : files) {
