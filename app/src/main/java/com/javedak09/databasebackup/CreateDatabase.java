@@ -1,5 +1,6 @@
 package com.javedak09.databasebackup;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,8 +18,8 @@ public class CreateDatabase extends SQLiteOpenHelper {
     public static final String SQL_DELETE_TABLE = "DELETE TABLE IF EXISTS info ";
 
     private static final String TAG = "Sec1";
-    public static final String DATABASE_NAME = "mapps.db";
-    private static final int DATABASE_VERSION = 3;
+    public static final String DATABASE_NAME = "mydatabase.db";
+    private static final int DATABASE_VERSION = 1;
 
     public CreateDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,5 +35,16 @@ public class CreateDatabase extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL(SQL_DELETE_TABLE);
         onCreate(db);
+    }
+
+    public void Insert(ContentValues values) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            db.insert("info", null, values);
+        } catch (Exception ex) {
+
+        }
     }
 }
