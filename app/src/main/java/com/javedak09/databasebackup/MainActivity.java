@@ -31,6 +31,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        exportDB1("mydatabase.db");
     }
 
     public void InsertRecord(View view) {
@@ -76,8 +78,6 @@ public class MainActivity extends Activity {
 
                 String outFileName = Environment.getExternalStorageDirectory() + "/DBBackup-" + sdf.format(dt) + "/" + db_name;
 
-                Toast.makeText(this, outFileName, Toast.LENGTH_SHORT).show();
-
                 OutputStream output = new FileOutputStream(outFileName);
 
                 byte[] buffer = new byte[1024];
@@ -86,6 +86,8 @@ public class MainActivity extends Activity {
                 while ((length = fis.read(buffer)) > 0) {
                     output.write(buffer, 0, length);
                 }
+
+                Toast.makeText(this, "Backup completed - " + outFileName, Toast.LENGTH_SHORT).show();
 
                 output.flush();
                 output.close();
@@ -128,25 +130,31 @@ public class MainActivity extends Activity {
 
         try {
 
+            int countdays = -3;
+
             //Date lastModDate = new Date(file.lastModified());
 
             //Toast.makeText(this, String.valueOf(lastModDate.before(ThreeDaysAgo.getTime())), Toast.LENGTH_LONG).show();
 
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-            for (int days = 3; days >= 0; days--) {
+            for (int days = 0; days <= 2; days++) {
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DATE, days);
+
+                if (countdays != 0)
+                    countdays++;
+
+
+                cal.add(Calendar.DATE, countdays);
 
                 String path = Environment.getExternalStorageDirectory() + "/DBBackup-" + dateFormat.format(cal.getTime()) + "/" + db_name;
                 File file = new File(path);
-                Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+                //File[] files = file.listFiles();
 
-                File[] files = file.listFiles();
+                Toast.makeText(this, "Deleting file ... " + path, Toast.LENGTH_LONG).show();
 
-
-                Toast.makeText(this, "Deleting file ... " + file.getName(), Toast.LENGTH_LONG).show();
                 file.delete();
                 file.getParentFile().delete();
 
